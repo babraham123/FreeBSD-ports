@@ -31,7 +31,7 @@ load_rc_config $name
 : ${pfsense_tailscaled_advertiseroutes:=""}
 : ${pfsense_tailscaled_exitnode_enable:="NO"}
 : ${pfsense_tailscaled_loginserver:="https://controlplane.tailscale.com"}
-: ${pfsense_tailscaled_snat_subnet_routes:="NO"}
+: ${pfsense_tailscaled_snat_subnet_routes:="YES"}
 
 # source the tailscaled rc configuration too
 load_rc_config tailscaled
@@ -66,13 +66,12 @@ fi
 # handle the --advertise-routes parameter
 pfsense_tailscaled_up_flags="${pfsense_tailscaled_up_flags} --advertise-routes=${pfsense_tailscaled_advertiseroutes}"
 
-# This is currently on available on Linux (see https://github.com/tailscale/tailscale/issues/5573)
-# handle the –-snat-subnet-routes parameter
-#if checkyesno pfsense_tailscaled_snat_subnet_routes; then
-#	pfsense_tailscaled_up_flags="${pfsense_tailscaled_up_flags} --snat-subnet-routes"
-#else
-#	pfsense_tailscaled_up_flags="${pfsense_tailscaled_up_flags} --snat-subnet-routes=false"
-#fi
+# handle the --snat-subnet-routes parameter
+if checkyesno pfsense_tailscaled_snat_subnet_routes; then
+	pfsense_tailscaled_up_flags="${pfsense_tailscaled_up_flags} --snat-subnet-routes"
+else
+	pfsense_tailscaled_up_flags="${pfsense_tailscaled_up_flags} --snat-subnet-routes=false"
+fi
 
 extra_commands="clean" 
 
