@@ -177,8 +177,9 @@
 				When disabled, the kernel forwards that traffic instead: it passes through the packet filter on the
 				Tailscale interface group (add pass rules under Firewall / Rules / Tailscale) and the destination sees
 				the Tailscale address of the originating node. Traffic through an advertised exit node then also
-				leaves with the originating node's Tailscale address, so add an Outbound NAT rule for 100.64.0.0/10
-				on the WAN interface if 'Advertise Exit Node' is enabled.
+				leaves with the originating node's Tailscale address, so if 'Advertise Exit Node' is enabled, also pass
+				traffic to non-local destinations under Firewall / Rules / Tailscale and add an Outbound NAT rule for
+				100.64.0.0/10 on the WAN interface.
 				]]>
 			</sethelp>
 			<type>checkbox</type>
